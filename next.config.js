@@ -15,9 +15,6 @@ const nextConfig = {
         pathname: '**',
       }
     ]
-  },
-  experimental: {
-    serverActions: true
   }
 }
 

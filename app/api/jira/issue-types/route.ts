@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runtime, dynamic } from '../../config'
 
-export { runtime, dynamic }
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   try {
