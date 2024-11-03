@@ -61,6 +61,7 @@ export interface Bug {
     created: string;
   }[];
   linkedIssues?: LinkedIssue[];
+  sprint?: string;
 }
 
 export interface JiraData {
