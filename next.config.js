@@ -17,15 +17,7 @@ const nextConfig = {
     ]
   },
   experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost:3000', 'jira-bug-monitor.vercel.app']
-    }
-  },
-  typescript: {
-    ignoreBuildErrors: true
-  },
-  eslint: {
-    ignoreDuringBuilds: true
+    serverActions: true
   }
 }
 
