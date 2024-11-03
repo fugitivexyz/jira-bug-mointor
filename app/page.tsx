@@ -21,17 +21,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {!isAuthenticated ? (
-        <div className="min-h-screen">
-          {/* Header */}
-          <div className="border-b">
-            <div className="flex h-16 items-center px-4 container mx-auto">
-              <h1 className="text-xl font-bold">Jira Bug Monitor</h1>
-            </div>
-          </div>
-          
-          {/* Login Form */}
-          <JiraLoginComponent onAuthenticate={handleAuthentication} />
-        </div>
+        <JiraLoginComponent onAuthenticate={handleAuthentication} />
       ) : (
         <DashboardComponent jiraConfig={jiraConfig} />
       )}
