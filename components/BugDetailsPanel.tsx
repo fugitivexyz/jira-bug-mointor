@@ -4,6 +4,7 @@ import { Bug } from '../types/jira'
 import { LinkedIssuesTable } from './LinkedIssuesTable'
 import { X } from 'lucide-react'
 import { ScrollArea } from "@/components/ui/scroll-area"
+import Image from 'next/image'
 
 interface BugDetailsPanelProps {
   bug: Bug;
@@ -43,10 +44,12 @@ export function BugDetailsPanelComponent({ bug, onClose }: BugDetailsPanelProps)
           <h3 className="text-sm font-medium text-gray-500 mb-2">Reporter</h3>
           <div className="flex items-center gap-2">
             {bug.reporter.avatarUrl && (
-              <img 
+              <Image 
                 src={bug.reporter.avatarUrl} 
                 alt={bug.reporter.name}
-                className="w-6 h-6 rounded-full"
+                width={24}
+                height={24}
+                className="rounded-full"
               />
             )}
             <span className="text-sm">{bug.reporter.name}</span>

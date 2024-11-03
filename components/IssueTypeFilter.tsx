@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { JiraConfig } from '@/types/jira'
+import Image from 'next/image'
 
 interface IssueType {
   id: string;
@@ -130,11 +131,12 @@ export function IssueTypeFilter({
             >
               <div className="flex items-center gap-2">
                 {type.iconUrl && (
-                  <img 
+                  <Image 
                     src={type.iconUrl} 
-                    alt={type.name} 
-                    className="w-4 h-4"
-                    style={{ marginRight: '8px' }}
+                    alt={type.name}
+                    width={16}
+                    height={16}
+                    className="mr-2"
                   />
                 )}
                 {type.name}

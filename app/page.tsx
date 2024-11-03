@@ -1,13 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { JiraLoginComponent } from '@/components/JiraLogin'
 import { DashboardComponent } from '@/components/Dashboard'
 import { JiraConfig } from '@/types/jira'
-import { ThemeProvider } from "@/components/theme-provider"
-
-const queryClient = new QueryClient()
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -23,31 +19,22 @@ export default function Home() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <div className="min-h-screen bg-background">
-          {!isAuthenticated ? (
-            <div className="min-h-screen">
-              {/* Header */}
-              <div className="border-b">
-                <div className="flex h-16 items-center px-4 container mx-auto">
-                  <h1 className="text-xl font-bold">Jira Bug Monitor</h1>
-                </div>
-              </div>
-              
-              {/* Login Form */}
-              <JiraLoginComponent onAuthenticate={handleAuthentication} />
+    <div className="min-h-screen bg-background">
+      {!isAuthenticated ? (
+        <div className="min-h-screen">
+          {/* Header */}
+          <div className="border-b">
+            <div className="flex h-16 items-center px-4 container mx-auto">
+              <h1 className="text-xl font-bold">Jira Bug Monitor</h1>
             </div>
-          ) : (
-            <DashboardComponent jiraConfig={jiraConfig} />
-          )}
+          </div>
+          
+          {/* Login Form */}
+          <JiraLoginComponent onAuthenticate={handleAuthentication} />
         </div>
-      </ThemeProvider>
-    </QueryClientProvider>
+      ) : (
+        <DashboardComponent jiraConfig={jiraConfig} />
+      )}
+    </div>
   )
 }

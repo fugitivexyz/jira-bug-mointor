@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Bug } from '../types/jira'
 import { Link } from 'lucide-react'
 import { ScrollArea } from "@/components/ui/scroll-area"
+import Image from 'next/image'
 
 interface BugListProps {
   bugs: Bug[];
@@ -55,10 +56,11 @@ export function BugListComponent({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
                   {bug.issueType && bug.issueType.iconUrl && (
-                    <img 
+                    <Image 
                       src={bug.issueType.iconUrl} 
                       alt={bug.issueType.name || 'Issue type'}
-                      className="w-4 h-4"
+                      width={16}
+                      height={16}
                       title={bug.issueType.name || 'Issue type'}
                     />
                   )}

@@ -1,40 +1,24 @@
 'use client'
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
-interface BugsByProjectData {
-  name: string;
-  bugs: number;
-}
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 interface BugsByProjectChartProps {
-  data: BugsByProjectData[];
+  data: Array<{ name: string; bugs: number }>;
 }
 
 export function BugsByProjectChartComponent({ data }: BugsByProjectChartProps) {
-  // Set explicit dimensions
-  const width = 400;
-  const height = 300;
-
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle>Bugs by Project</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="w-full h-full flex items-center justify-center">
-          <BarChart width={width} height={height} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="bugs" fill="#8884d8" />
-          </BarChart>
-        </div>
-      </CardContent>
-    </Card>
-  )
+    <div className="h-[300px]">
+      <h3 className="text-lg font-semibold mb-4">Bugs by Project</h3>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="bugs" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
-
-export default BugsByProjectChartComponent;

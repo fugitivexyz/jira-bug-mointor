@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchJiraData } from '../utils/jiraApi'
 import { KeyMetricsComponent as KeyMetrics } from './KeyMetrics'
 import { BugStatusChartComponent } from './BugStatusChart'
@@ -39,7 +39,6 @@ export function DashboardComponent({ jiraConfig }: DashboardProps) {
   const handleProjectSelect = useCallback((project: string | null) => {
     setSelectedProject(project);
     setSelectedBug(null);
-    // Don't automatically reset the issue type
   }, []);
 
   // Memoize the issue type selection handler
@@ -47,16 +46,15 @@ export function DashboardComponent({ jiraConfig }: DashboardProps) {
     setSelectedIssueType(issueType);
   }, []);
 
-  const { data: jiraData, isLoading, error } = useQuery<JiraData, Error>(
-    ['jiraData', jiraConfig.instanceUrl, selectedIssueType],
-    () => fetchJiraData(jiraConfig, selectedIssueType),
-    {
-      retry: 1,
-      staleTime: 30000,
-      refetchOnWindowFocus: false,
-      refetchInterval: 5 * 60 * 1000
-    }
-  );
+  // Update the useQuery hook to use the correct syntax
+  const { data: jiraData, isLoading, error } = useQuery({
+    queryKey: ['jiraData', jiraConfig.instanceUrl, selectedIssueType],
+    queryFn: () => fetchJiraData(jiraConfig, selectedIssueType),
+    staleTime: 30000,
+    refetchOnWindowFocus: false,
+    refetchInterval: 5 * 60 * 1000,
+    retry: 1
+  });
 
   // Save credentials when they're provided
   useEffect(() => {

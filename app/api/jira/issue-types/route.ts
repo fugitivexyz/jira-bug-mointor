@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { runtime, dynamic } from '../../config'
+
+export { runtime, dynamic }
 
 export async function POST(req: NextRequest) {
   try {

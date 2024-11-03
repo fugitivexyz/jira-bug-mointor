@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Bug, LinkedIssue } from '../types/jira'
 import { useEffect, useState, useCallback } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import Image from 'next/image'
 
 interface LinkedIssuesSummaryProps {
   bugs: Bug[];
@@ -171,10 +172,11 @@ export function LinkedIssuesSummary({ bugs, selectedBug, instanceUrl }: LinkedIs
                         <div className="mb-2">
                           <div className="flex items-center gap-2">
                             {linkedIssue.issueType.iconUrl && (
-                              <img 
+                              <Image 
                                 src={linkedIssue.issueType.iconUrl} 
                                 alt={linkedIssue.issueType.name}
-                                className="w-4 h-4"
+                                width={16}
+                                height={16}
                                 title={linkedIssue.issueType.name}
                               />
                             )}
