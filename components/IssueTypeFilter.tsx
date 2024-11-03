@@ -130,14 +130,19 @@ export function IssueTypeFilter({
               className="flex items-center gap-2"
             >
               <div className="flex items-center gap-2">
-                {type.iconUrl && (
+                {type.iconUrl ? (
                   <Image 
                     src={type.iconUrl} 
                     alt={type.name}
                     width={16}
                     height={16}
                     className="mr-2"
+                    unoptimized
                   />
+                ) : (
+                  <span className="w-4 h-4 flex items-center justify-center text-xs text-muted-foreground mr-2">
+                    {type.name[0]}
+                  </span>
                 )}
                 {type.name}
               </div>

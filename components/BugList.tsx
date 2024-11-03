@@ -55,14 +55,23 @@ export function BugListComponent({
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
-                  {bug.issueType && bug.issueType.iconUrl && (
-                    <Image 
-                      src={bug.issueType.iconUrl} 
-                      alt={bug.issueType.name || 'Issue type'}
-                      width={16}
-                      height={16}
-                      title={bug.issueType.name || 'Issue type'}
-                    />
+                  {bug.issueType && (
+                    <div className="w-4 h-4 flex items-center justify-center">
+                      {bug.issueType.iconUrl ? (
+                        <Image 
+                          src={bug.issueType.iconUrl} 
+                          alt={bug.issueType.name || 'Issue type'}
+                          width={16}
+                          height={16}
+                          title={bug.issueType.name || 'Issue type'}
+                          unoptimized
+                        />
+                      ) : (
+                        <span className="text-xs text-muted-foreground">
+                          {bug.issueType.name?.[0] || '?'}
+                        </span>
+                      )}
+                    </div>
                   )}
                   <a 
                     href={getIssueUrl(bug.key)}

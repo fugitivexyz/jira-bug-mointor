@@ -4,15 +4,17 @@ import "./globals.css";
 import { Providers } from "@/components/providers"
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../public/fonts/GeistVF.woff2",
   variable: "--font-geist-sans",
-  weight: "100 900",
+  display: 'swap',
+  preload: true,
 });
 
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../public/fonts/GeistMonoVF.woff2",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -28,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <Providers>
           {children}
         </Providers>

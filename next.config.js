@@ -13,8 +13,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'secure.gravatar.com',
         pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.atlassian.com',
+        pathname: '**',
       }
-    ]
+    ],
+    unoptimized: true
   }
 }
 
