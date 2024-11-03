@@ -39,7 +39,7 @@ A modern, real-time dashboard for monitoring and analyzing bugs in Jira projects
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/jira-bug-monitor.git
+git clone https://github.com/fugitivexyz/jira-bug-monitor.git
 cd jira-bug-monitor
 ```
 
@@ -85,7 +85,7 @@ The easiest way to deploy the application is using Vercel:
 3. Connect your forked repository
 4. Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/jira-bug-monitor)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/fugitivexyz/jira-bug-monitor)
 
 ### Self-hosted Deployment
 
