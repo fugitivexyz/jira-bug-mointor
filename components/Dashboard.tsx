@@ -20,6 +20,15 @@ import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { saveCredentials, getCredentials } from '../utils/storage'
 import { UserNav } from "./UserNav"
 import { IssueTypeFilter } from './IssueTypeFilter'
+import { DownloadIcon } from "lucide-react"
+import { saveAs } from 'file-saver'
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface DashboardProps {
   jiraConfig: JiraConfig;
@@ -198,11 +207,109 @@ export function DashboardComponent({ jiraConfig }: DashboardProps) {
             {/* Dependency Tracker Panel */}
             <TabsContent value="dependencies" className="p-4 space-y-4">
               <div className="flex justify-between items-center gap-4">
-                <ProjectFilter 
-                  projects={jiraData?.projects || []}
-                  selectedProject={selectedProject}
-                  onSelectProject={handleProjectSelect}
-                />
+                <div className="flex items-center gap-4">
+                  <ProjectFilter 
+                    projects={jiraData?.projects || []}
+                    selectedProject={selectedProject}
+                    onSelectProject={handleProjectSelect}
+                  />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                      >
+                        <DownloadIcon className="mr-2 h-4 w-4" />
+                        Export Report
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => {
+                        const report = {
+                          timestamp: new Date().toISOString(),
+                          filters: {
+                            project: selectedProject,
+                            issueType: selectedIssueType
+                          },
+                          bugs: filteredBugs.map(bug => ({
+                            key: bug.key,
+                            summary: bug.summary,
+                            status: bug.status,
+                            priority: bug.priority,
+                            assignee: bug.assignee,
+                            created: bug.created,
+                            updated: bug.updated
+                          }))
+                        };
+                        
+                        const blob = new Blob([JSON.stringify(report, null, 2)], {
+                          type: 'application/json'
+                        });
+                        saveAs(blob, `bug-report-${selectedProject || 'all'}-${new Date().toISOString()}.json`);
+                      }}>
+                        Export as JSON
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => {
+                        // Enhanced CSV headers and data
+                        const headers = [
+                          'Key',
+                          'Summary',
+                          'Status',
+                          'Priority',
+                          'Assignee',
+                          'Sprint',
+                          'Created',
+                          'Updated',
+                          'Linked Issues',
+                          'Project'
+                        ];
+
+                        const rows = filteredBugs.map(bug => {
+                          const linkedIssues = bug.linkedIssues 
+                            ? bug.linkedIssues.map(issue => issue.key).join(';')
+                            : '';
+
+                          return [
+                            bug.key,
+                            `"${(bug.summary || '').replace(/"/g, '""')}"`, // Escape quotes in summary
+                            bug.status || '',
+                            bug.priority || '',
+                            bug.assignee || '',
+                            bug.sprint || '',
+                            new Date(bug.created).toLocaleString() || '',
+                            new Date(bug.updated).toLocaleString() || '',
+                            `"${linkedIssues}"`,
+                            bug.projectKey || ''
+                          ];
+                        });
+                        
+                        // Add a metadata section at the top of the CSV
+                        const metadata = [
+                          [`Report Generated:, ${new Date().toLocaleString()}`],
+                          [`Project:, ${selectedProject || 'All Projects'}`],
+                          [`Issue Type:, ${selectedIssueType || 'All Types'}`],
+                          [`Total Issues:, ${filteredBugs.length}`],
+                          [], // Empty line for separation
+                        ];
+                        
+                        const csvContent = [
+                          ...metadata,
+                          headers,
+                          ...rows.map(row => row.join(','))
+                        ].join('\n');
+                        
+                        const blob = new Blob(['\ufeff' + csvContent], { // Add BOM for Excel UTF-8 support
+                          type: 'text/csv;charset=utf-8'
+                        });
+                        
+                        saveAs(blob, `bug-report-${selectedProject || 'all'}-${new Date().toISOString()}.csv`);
+                      }}>
+                        Export as CSV
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                
                 {selectedProject && (
                   <IssueTypeFilter
                     jiraConfig={jiraConfig}
